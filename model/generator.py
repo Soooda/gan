@@ -5,6 +5,7 @@ import torch.nn as nn
 class VanillaGenerator(nn.Module):
     def __init__(self, output_size, input_size=128):
         super(VanillaGenerator, self).__init__()
+        self.input_size = input_size
         self.output_size = output_size
         self.model = nn.Sequential(
             nn.Linear(input_size, 256),
@@ -20,8 +21,8 @@ class VanillaGenerator(nn.Module):
     def forward(self, data):
         return self.model(data)
     
-    def generate_noise(self):
-        noise = self.randn(self.output_size).to(self.get_device())
+    def generate_noise(self, n):
+        noise = torch.randn(n, self.input_size)
         return noise
     
 
