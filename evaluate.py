@@ -17,7 +17,7 @@ model = VanillaGenerator(input_size).to(device)
 
 with torch.no_grad():
     model.eval()
-    temp = torch.load(checkpoint)
+    temp = torch.load(checkpoint, map_location=device)
     ret = model.load_state_dict(temp['gen_state_dict'])
     print(ret)
 
