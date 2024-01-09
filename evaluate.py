@@ -11,7 +11,7 @@ elif torch.cuda.is_available():
 else:
     device = torch.device("cpu")
 
-checkpoint = osp.sep.join(("checkpoints", "400.pth"))
+checkpoint = osp.sep.join(("checkpoints", "vanilla.pth"))
 input_size = 28 * 28
 model = VanillaGenerator(input_size).to(device)
 
@@ -21,7 +21,7 @@ with torch.no_grad():
     ret = model.load_state_dict(temp['gen_state_dict'])
     print(ret)
 
-    for i in range(4):
+    for i in range(10):
         noise = model.generate_noise(1).to(device)
         generated_data = model(noise).view(28, 28).cpu()
 
