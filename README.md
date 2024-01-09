@@ -1,4 +1,4 @@
-# Variational  Autoencoder
+# Vanilla Generative Adversarial Nets
 This repo contains my reproduction of the base GAN paper in Pytorch.
 
 ## References
