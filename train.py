@@ -3,7 +3,7 @@ import torch.nn as nn
 import os
 
 from data.mnist import create_dataloader
-from model.vanillagan import VanillaDiscriminator, VanillaGenerator
+from model.vanillagan import VanillaDiscriminator, VanillaGenerator, weights_init
 
 if torch.backends.mps.is_available():
     device = torch.device("mps")
@@ -12,8 +12,8 @@ elif torch.cuda.is_available():
 else:
     device = torch.device("cpu")
 
-num_epochs = 400
-batch_size = 16
+num_epochs = 200
+batch_size = 128
 input_size = 28 * 28
 generator_learning_rate = 1e-4
 discriminator_learning_rate = 1e-4
@@ -23,11 +23,13 @@ mnist = create_dataloader(batch_size=batch_size)
 
 gen = VanillaGenerator(input_size).to(device)
 dis = VanillaDiscriminator(input_size, batch_size).to(device)
+gen.apply(weights_init)
+dis.apply(weights_init)
 criterion = nn.BCELoss()
 # gen_optimizer = torch.optim.SGD(gen.parameters(), momentum=0.9, lr=generator_learning_rate)
-gen_optimizer = torch.optim.Adam(gen.parameters(), lr=generator_learning_rate)
+gen_optimizer = torch.optim.Adam(gen.parameters(), lr=generator_learning_rate, betas=(0.5, 0.999))
 # dis_optimizer = torch.optim.SGD(dis.parameters(), momentum=0.9, lr=discriminator_learning_rate)
-dis_optimizer = torch.optim.Adam(dis.parameters(), lr=discriminator_learning_rate)
+dis_optimizer = torch.optim.Adam(dis.parameters(), lr=discriminator_learning_rate, betas=(0.5, 0.999))
 
 for epoch in range(1, num_epochs + 1):
     checkpoint = os.sep.join(("checkpoints", str(epoch) + ".pth"))

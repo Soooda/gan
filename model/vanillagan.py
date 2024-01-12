@@ -1,6 +1,12 @@
 import torch
 import torch.nn as nn
 
+# Custom weights initialization
+def weights_init(m):
+    classname = m.__class__.__name__
+    if classname.find('Linear') != -1:
+        nn.init.normal_(m.weight.data, 0.0, 0.02)
+        
 class VanillaDiscriminator(nn.Module):
     def __init__(self, input_size, batch_size):
         super(VanillaDiscriminator, self).__init__()
@@ -28,11 +34,11 @@ class VanillaGenerator(nn.Module):
         self.output_size = output_size
         self.model = nn.Sequential(
             nn.Linear(input_size, 256),
-            nn.LeakyReLU(),
+            nn.ReLU(),
             nn.Linear(256, 512),
-            nn.LeakyReLU(),
+            nn.ReLU(),
             nn.Linear(512, 1024),
-            nn.LeakyReLU(),
+            nn.ReLU(),
             nn.Linear(1024, output_size),
             nn.Tanh()
         )
