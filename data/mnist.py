@@ -27,6 +27,14 @@ if __name__ == "__main__":
     dataloader = create_dataloader(32)
     batch = next(iter(dataloader))
     print(batch[0].size())
+
+    # for i in range(batch[0].size()[0]):
+    #     img = batch[0][i].view(28, 28)
+    #     plt.figure(figsize=(4, 4))
+    #     plt.axis('Off')
+    #     plt.imshow(img, cmap="gray")
+    #     plt.show()
+
     plt.figure(figsize=(8,8))
     plt.axis("off")
     plt.title("Training Images")
