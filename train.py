@@ -12,7 +12,7 @@ elif torch.cuda.is_available():
 else:
     device = torch.device("cpu")
 
-num_epochs = 200
+num_epochs = 1600
 batch_size = 128
 input_size = 28 * 28
 generator_learning_rate = 1e-4
